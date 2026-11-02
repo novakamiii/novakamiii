@@ -48,6 +48,13 @@ def main() -> int:
         print(f"embed_koi: ffmpeg not found; embedding the full {len(small) / 1024:.0f} KB gif", file=sys.stderr)
 
     b64 = base64.b64encode(small).decode("ascii")
+
+    # The re-encoded copy is also committed as koi/koi.gif: it is the only
+    # consumer of that file in this repo, and the small version keeps the
+    # nightly history from growing by ~550 KB a day.
+    GIF.write_bytes(small)
+    print(f"embed_koi: wrote {len(small) / 1024:.0f} KB gif back to koi/koi.gif")
+
     html = HEADER.read_text(encoding="utf-8")
     if not B64_RE.search(html):
         print("embed_koi: no koi slot in header.svg; regenerate the header first", file=sys.stderr)
