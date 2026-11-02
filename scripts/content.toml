@@ -3,10 +3,10 @@
 # Typographic punctuation is intentional — keep it.
 
 [header]
-name = "Paulo"
-handle = "novakamiii"
+# The big line rendered in the header card.
+name = "novakamiii"
 role = "Backend developer · Linux administrator · Graphics artist"
-alt = "Paulo — novakamiii — Backend developer, Linux administrator, Graphics artist."
+alt = "novakamiii — Backend developer · Linux administrator · Graphics artist."
 
 [about]
 heading = "About"
@@ -19,7 +19,7 @@ paragraphs = [
 alt = "About — I’m a BS Information Technology student at the Polytechnic University of the Philippines, San Pedro campus. I build backends with Laravel, TypeScript and PostgreSQL, and spend most of what’s left administering Linux — servers, window managers, whatever broke last night. Three years of graphics work with MAIA, the multimedia arts association at PUP, and digital art on the side. And yes, too many hours in Team Fortress 2."
 
 [whoami]
-alt = "Terminal: whoami — OS: CachyOS (main) · Arch Linux (backup) · Void Linux (experimental); Kernel: 7.3.0-cachyos; WM: KDE Plasma (Wayland) · Niri · Hyprland; Terminal: kitty; Shell: fish; Editor: Neovim · Codium; School: Polytechnic University of the Philippines — San Pedro Campus; Course: BS Information Technology; Theme: Catppuccin Mocha."
+alt = "Terminal: whoami — OS: CachyOS (main) · Arch Linux (backup) · Void Linux (experimental); Kernel: 7.3.0-cachyos; WM: KDE Plasma (Wayland) · Niri · Hyprland; Terminal: kitty; Shell: fish; Editor: Neovim · Zed; School: Polytechnic University of the Philippines — San Pedro Campus; Course: BS Information Technology."
 
 [[whoami.rows]]
 label = "OS"
@@ -38,7 +38,7 @@ label = "Shell"
 value = "fish"
 [[whoami.rows]]
 label = "Editor"
-value = "Neovim · Codium"
+value = "Neovim · Zed"
 divider = true
 [[whoami.rows]]
 label = "School"
@@ -46,9 +46,6 @@ value = "Polytechnic University of the Philippines — San Pedro Campus"
 [[whoami.rows]]
 label = "Course"
 value = "BS Information Technology"
-[[whoami.rows]]
-label = "Theme"
-value = "Catppuccin Mocha"
 
 [[projects]]
 card = "work-trapple"
@@ -73,8 +70,7 @@ link = "https://github.com/novakamiii/DeckMe"
 
 [skills]
 heading = "Stack"
-caption = "No icon for fish, kitty, CachyOS, Niri or Hyprland — see whoami."
-alt = "Stack — PHP, Laravel, TypeScript, JavaScript, React, Tailwind CSS, Vite, Python, PostgreSQL, Redis, Docker, Git, GitHub, GitHub Actions, Linux, Arch Linux, Nginx, Neovim, VSCodium, Figma, Photoshop. (No icon for fish, kitty, CachyOS, Niri or Hyprland — see whoami.)"
+alt = "Stack — PHP, Laravel, TypeScript, JavaScript, React, Tailwind CSS, Vite, Python, PostgreSQL, Redis, Docker, Git, GitHub, GitHub Actions, Linux, Arch Linux, Nginx, Neovim, VSCodium, Figma, Photoshop."
 
 [now]
 date = "November 2026"

@@ -25,10 +25,13 @@ jobs:
         with:
           body: platinum
           output-dir: koi
+      - name: Refresh the fish in the header card
+        shell: bash
+        run: python3 scripts/embed_koi.py
       - name: Commit the koi if it changed
         shell: bash
         run: |
-          git add koi/koi.gif
+          git add koi/koi.gif assets/header.svg
           if git diff --cached --quiet; then
             echo "The koi is unchanged; nothing to commit."
             exit 0

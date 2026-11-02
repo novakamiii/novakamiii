@@ -16,6 +16,7 @@ import base64
 import io
 import re
 import subprocess
+import sys
 import tomllib
 from html import escape
 from itertools import count
@@ -169,16 +170,27 @@ def wrap(face_key: str, text: str, size: float, width: float) -> list[str]:
 # -------------------------------------------------------------- builders ---
 
 def build_header(c: Card) -> int:
+    H = 172
+    # Swimming koi in the background: the GIF is injected by scripts/embed_koi.py
+    # (placeholder token @@KOI@@ until then), kept faint and clipped to the card.
+    c.parts.append(
+        '<defs>'
+        f'<clipPath id="koi-clip"><rect x="0.5" y="0.5" width="{c.w - 1}" height="{H - 1}" rx="8"/></clipPath>'
+        '<filter id="koi-quiet" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0.75"/></filter>'
+        '</defs>'
+        '<g clip-path="url(#koi-clip)" filter="url(#koi-quiet)" opacity="0.45">'
+        f'<image x="-210" y="-14" width="200" height="200" preserveAspectRatio="xMidYMid meet" href="data:image/gif;base64,@@KOI@@">'
+        '<animateTransform attributeName="transform" type="translate" values="250 0;820 0;250 0" dur="80s" repeatCount="indefinite" calcMode="linear"/>'
+        '</image></g>'
+    )
     cx = c.w / 2
-    y = 54
-    c.text(cx, y, CONTENT["header"]["name"], "serif_b", 42, TEXT, anchor="middle", spacing="0.4")
-    y += 30
-    c.text(cx, y, CONTENT["header"]["handle"], "mono_r", 15, SUBTEXT0, anchor="middle")
-    y += 29
+    y = 92
+    c.text(cx, y, CONTENT["header"]["name"], "serif_b", 44, TEXT, anchor="middle", spacing="0.4")
+    y += 28
     c.text(cx, y, CONTENT["header"]["role"], "serif_i", 15.5, SUBTEXT0, anchor="middle")
-    y += 22
+    y += 18
     c.rule(cx - 32, y, cx + 32, ACCENT, 2)
-    return round(y + 36)
+    return H
 
 
 def build_about(c: Card) -> int:
@@ -264,8 +276,11 @@ def build_skills(c: Card) -> int:
     rows = (len(names) + per - 1) // per
     y_bottom = y + rows * (tile + gap) - gap
     y = y_bottom + 26
-    c.text(c.w / 2, y, CONTENT["skills"]["caption"], "mono_r", 12.5, SUBTEXT0, anchor="middle")
-    return round(y + 24)
+    caption = CONTENT["skills"].get("caption")
+    if caption:
+        c.text(c.w / 2, y, caption, "mono_r", 12.5, SUBTEXT0, anchor="middle")
+        return round(y + 24)
+    return round(y_bottom + 24)
 
 
 def build_now(c: Card) -> int:
@@ -339,8 +354,6 @@ def write_readme(alts: dict[str, str]) -> None:
 
 <p><img src="assets/about.svg" width="800" alt="{escape(alts["about"])}"/></p>
 
-<p><img src="koi/koi.gif" width="256" alt="A pixel-art koi, redrawn from public GitHub activity each day."/></p>
-
 <p><img src="assets/whoami.svg" width="800" alt="{escape(alts["whoami"])}"/></p>
 
 <p><img src="assets/work-trapple.svg" width="800" alt="{escape(alts["trapple"])}"/></p>
@@ -352,6 +365,8 @@ def write_readme(alts: dict[str, str]) -> None:
 
 <p><a href="https://github.com/novakamiii"><img src="assets/footer.svg" width="800" alt="{escape(alts["footer"])}"/></a></p>
 
+<p>You are the <img src="https://komarev.com/ghpvc/?username=novakamiii&amp;label=&amp;color=7f6dab&amp;style=flat-square" alt="live profile view count" valign="middle"/>th viewer. Welcome.</p>
+
 </div>
 """
     (ROOT / "README.md").write_text(md, encoding="utf-8")
@@ -361,7 +376,7 @@ def write_readme(alts: dict[str, str]) -> None:
 def main() -> None:
     check_contrast()
     print("building:")
-    render("header", 800, "Paulo — novakamiii", CONTENT["header"]["alt"], build_header)
+    render("header", 800, "novakamiii", CONTENT["header"]["alt"], build_header)
     render("about", 800, "About Paulo", CONTENT["about"]["alt"], build_about)
     render("whoami", 800, "whoami — system and study", CONTENT["whoami"]["alt"], build_whoami)
     for proj in CONTENT["projects"]:
@@ -383,6 +398,11 @@ def main() -> None:
         "footer": CONTENT["footer"]["alt"],
     }
     write_readme(alts)
+
+    # Restore the fish: any rebuild deletes its embedded GIF, so re-embed.
+    subdir = subprocess.run([sys.executable, str(ROOT / "scripts" / "embed_koi.py")], check=False, capture_output=True, text=True)
+    if subdir.stdout.strip():
+        print(subdir.stdout.strip())
 
 
 if __name__ == "__main__":
