@@ -5,8 +5,8 @@
 [header]
 # The big line rendered in the header card.
 name = "novakamiii"
-role = "Backend developer · Linux administrator · Graphics artist"
-alt = "novakamiii — Backend developer · Linux administrator · Graphics artist."
+role = "Backend developer · Aspiring System Administrator · Graphics artist"
+alt = "novakamiii — Backend developer · Aspiring System Administrator · Graphics artist."
 
 [about]
 heading = "About"
@@ -70,12 +70,19 @@ link = "https://github.com/novakamiii/DeckMe"
 
 [skills]
 heading = "Stack"
-alt = "Stack — PHP, Laravel, TypeScript, JavaScript, React, Tailwind CSS, Vite, Python, PostgreSQL, Redis, Docker, Git, GitHub, GitHub Actions, Linux, Arch Linux, Nginx, Neovim, VSCodium, Figma, Photoshop."
+alt = "Stack — PHP, Laravel, TypeScript, JavaScript, React, Tailwind CSS, Vite, Python, PostgreSQL, Redis, Docker, Git, GitHub, GitHub Actions, Linux, Arch Linux, Nginx, Neovim, VSCodium, Zed, Krita."
 
 [now]
 date = "November 2026"
 text = "This term: the capstone’s lifecycle dashboard and its technical documentation, and keeping DeckMe’s Android release pipeline green."
 alt = "November 2026 — This term: the capstone’s lifecycle dashboard and its technical documentation, and keeping DeckMe’s Android release pipeline green."
+
+[views]
+# a viewer counter rendered as plain text; {ord} becomes e.g. "143rd".
+# The workflow refreshes "count" nightly; locally the last known value is used.
+count = 143
+sentence = "You are the {ord} viewer. Welcome."
+alt = "You are the {ord} viewer. Welcome."
 
 [footer]
 line = "github.com/novakamiii"

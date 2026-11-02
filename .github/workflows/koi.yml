@@ -31,15 +31,18 @@ jobs:
       - name: Refresh the fish in the header card
         shell: bash
         run: python3 scripts/embed_koi.py
+      - name: Refresh the plain-text view counter
+        shell: bash
+        run: python3 scripts/update_views.py
       - name: Commit the koi if it changed
         shell: bash
         run: |
-          git add koi/koi.gif assets/header.svg
+          git add koi/koi.gif assets/header.svg assets/views.svg scripts/content.toml
           if git diff --cached --quiet; then
-            echo "The koi is unchanged; nothing to commit."
+            echo "Nothing changed; nothing to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit --quiet --message "koi: draw the day's koi"
+          git commit --quiet --message "koi: draw the day's koi and refresh the view count"
           git push --quiet

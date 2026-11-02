@@ -124,6 +124,14 @@ class Card:
     def rule(self, x1, y, x2, stroke=CRUST, w=1):
         self.parts.append(f'<line x1="{x1:g}" y1="{y:g}" x2="{x2:g}" y2="{y:g}" stroke="{stroke}" stroke-width="{w:g}"/>')
 
+    def ornament(self, x1, y, x2, *, gem=5, gap=7):
+        """Stylized text break: hairlines that part around a small accent square."""
+        cx = (x1 + x2) / 2
+        self.rule(x1, y, cx - gap, SURFACE0, 1.25)
+        self.rule(cx + gap, y, x2, SURFACE0, 1.25)
+        h = gem / 2
+        self.parts.append(f'<rect x="{cx - h:g}" y="{y - h:g}" width="{gem}" height="{gem}" fill="{ACCENT}"/>')
+
     def heading(self, y, s, size=23):
         self.text(self.pad, y, s, "serif_b", size, TEXT, spacing="0.2")
         self.rule(self.pad, y + 13, self.pad + 46, ACCENT, 2)
@@ -167,6 +175,23 @@ def wrap(face_key: str, text: str, size: float, width: float) -> list[str]:
     return lines
 
 
+def ordinal(n: int) -> str:
+    """1st, 2nd, 3rd, 4th — including the 11th/12th/13th oddities."""
+    if n % 100 in (11, 12, 13):
+        return f"{n}th"
+    suffix = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suffix}"
+
+
+def views_sentence() -> tuple[str, str]:
+    """The viewer greeting and its alt text, with the ordinal filled in."""
+    s = ordinal(int(CONTENT["views"]["count"]))
+    return (
+        CONTENT["views"]["sentence"].replace("{ord}", s),
+        CONTENT["views"]["alt"].replace("{ord}", s),
+    )
+
+
 # -------------------------------------------------------------- builders ---
 
 def build_header(c: Card) -> int:
@@ -183,6 +208,7 @@ def build_header(c: Card) -> int:
         '<animateTransform attributeName="transform" type="translate" values="250 0;820 0;250 0" dur="80s" repeatCount="indefinite" calcMode="linear"/>'
         '</image></g>'
     )
+    c.ornament(c.pad, 26, c.w - c.pad)
     cx = c.w / 2
     y = 92
     c.text(cx, y, CONTENT["header"]["name"], "serif_b", 44, TEXT, anchor="middle", spacing="0.4")
@@ -252,13 +278,27 @@ def build_skills(c: Card) -> int:
     y = c.heading(y, CONTENT["skills"]["heading"])
     names = ["php", "laravel", "ts", "js", "react", "tailwind", "vite",
              "py", "postgres", "redis", "docker", "git", "github", "githubactions",
-             "linux", "arch", "nginx", "neovim", "vscodium", "figma", "ps"]
+             "linux", "arch", "nginx", "neovim", "vscodium", "zed", "krita"]
     tile, gap, per = 56, 14, 7
     x0 = (c.w - (per * tile + (per - 1) * gap)) / 2
     c.parts.append(
         '<filter id="s35" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0.35"/></filter>'
         '<filter id="s20" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0.2"/></filter>'
     )
+    # Stack rows fade in one by one (1s per icon), rows slide in alternating
+    # directions: odd rows enter left-to-right, even rows right-to-left. CSS
+    # animations survive GitHub's sandboxed <img>; scripts do not.
+    rows = (len(names) + per - 1) // per
+    css = (
+        '@keyframes sl-in-l{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}'
+        '@keyframes sl-in-r{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}'
+        + "".join(
+            f'.i.r{r}{{animation:1s ease-out both sl-in-{"l" if r % 2 == 0 else "r"}}}'
+            for r in range(rows)
+        )
+        + "".join(f'.i.r{r}.c{k}{{animation-delay:{r * per + k}s}}' for r in range(rows) for k in range(per))
+    )
+    c.parts.append(f"<style>{css}</style>")
     for i, name in enumerate(names):
         row, col = divmod(i, per)
         x, yy = x0 + col * (tile + gap), y + row * (tile + gap)
@@ -272,8 +312,7 @@ def build_skills(c: Card) -> int:
         inner = ID_ATTR.sub(lambda m: f'id="{pre}{m.group(1)}"', inner)
         inner = REF_RE.sub(f'\\1{pre}', inner)
         filt = "s35" if light_tile else "s20"
-        c.parts.append(f'<g filter="url(#{filt})"><svg x="{x:g}" y="{yy:g}" width="{tile}" height="{tile}" viewBox="0 0 256 256">{inner}</svg></g>')
-    rows = (len(names) + per - 1) // per
+        c.parts.append(f'<g class="i r{row} c{col}" filter="url(#{filt})"><svg x="{x:g}" y="{yy:g}" width="{tile}" height="{tile}" viewBox="0 0 256 256">{inner}</svg></g>')
     y_bottom = y + rows * (tile + gap) - gap
     y = y_bottom + 26
     caption = CONTENT["skills"].get("caption")
@@ -296,9 +335,19 @@ def build_now(c: Card) -> int:
 def build_footer(c: Card) -> int:
     y = 54
     c.text(c.w / 2, y, CONTENT["footer"]["line"], "mono_r", 14, SUBTEXT0, anchor="middle")
-    y += 24
-    c.rule((c.w - 64) / 2, y, (c.w + 64) / 2, ACCENT, 2)
-    return round(y + 34)
+    return round(y + 30)
+
+
+def build_views(c: Card) -> int:
+    # The count is baked in as plain text; scripts/update_views.py refreshes it
+    # nightly by patching this text node (no rebuild needed).
+    sentence, _ = views_sentence()
+    y = 58
+    c.text(c.w / 2, y, sentence, "serif_r", 17, TEXT, anchor="middle")
+    # Keep every ordinal suffix subsetted: the nightly counter can change th→st etc.
+    c.used["serif_r"] += "stnrdth"
+    c.ornament(c.pad + 120, y + 30, c.w - c.pad - 120)
+    return round(y + 60)
 
 
 ID_ATTR = re.compile(r'\bid="([^"]*)"')
@@ -311,7 +360,7 @@ ICON_FILE = {
     "postgres": "PostgreSQL", "redis": "Redis", "docker": "Docker", "git": "Git",
     "github": "Github", "githubactions": "GithubActions", "linux": "Linux",
     "arch": "Arch", "nginx": "Nginx", "neovim": "NeoVim", "vscodium": "VSCodium",
-    "figma": "Figma", "ps": "Photoshop",
+    "zed": "Zed", "krita": "Krita",
 }
 
 # ------------------------------------------------------------------ run ----
@@ -365,7 +414,12 @@ def write_readme(alts: dict[str, str]) -> None:
 
 <p><a href="https://github.com/novakamiii"><img src="assets/footer.svg" width="800" alt="{escape(alts["footer"])}"/></a></p>
 
-<p>You are the <img src="https://komarev.com/ghpvc/?username=novakamiii&amp;label=&amp;color=7f6dab&amp;style=flat-square" alt="live profile view count" valign="middle"/>th viewer. Welcome.</p>
+<p><img src="assets/views.svg" width="800" alt="{escape(alts["views"])}"/></p>
+
+<!-- 1px counter pixel: the only source of the view count. It increments the
+     badge service; scripts/update_views.py bakes that number into the plain-text
+     views card above nightly. -->
+<p><img src="https://komarev.com/ghpvc/?username=novakamiii&amp;label=&amp;color=7f6dab" width="1" height="1" alt=""/></p>
 
 </div>
 """
@@ -376,14 +430,16 @@ def write_readme(alts: dict[str, str]) -> None:
 def main() -> None:
     check_contrast()
     print("building:")
+    views_txt, views_alt = views_sentence()
     render("header", 800, "novakamiii", CONTENT["header"]["alt"], build_header)
-    render("about", 800, "About Paulo", CONTENT["about"]["alt"], build_about)
+    render("about", 800, "About", CONTENT["about"]["alt"], build_about)
     render("whoami", 800, "whoami — system and study", CONTENT["whoami"]["alt"], build_whoami)
     for proj in CONTENT["projects"]:
         render(proj["card"], 800, proj["name"], proj["alt"], build_project, proj)
     render("skills", 800, "Stack", CONTENT["skills"]["alt"], build_skills)
     render("now", 800, "Now", CONTENT["now"]["alt"], build_now)
     render("footer", 800, "github.com/novakamiii", CONTENT["footer"]["alt"], build_footer)
+    render("views", 800, "Profile views", views_alt, build_views)
     total = sum(p.stat().st_size for p in ASSETS.glob("*.svg"))
     print(f"  total assets: {total / 1024:.1f} KB")
 
@@ -396,6 +452,7 @@ def main() -> None:
         "skills": CONTENT["skills"]["alt"],
         "now": CONTENT["now"]["alt"],
         "footer": CONTENT["footer"]["alt"],
+        "views": views_alt,
     }
     write_readme(alts)
 

@@ -17,12 +17,17 @@ renders. License texts: <https://scripts.sil.org/OFL>.
 | Project | Source | License |
 | --- | --- | --- |
 | skill-icons (tandpfun) | <https://github.com/tandpfun/skill-icons> | MIT |
+| Simple Icons (renderer of the Krita and Zed glyphs) | <https://github.com/simple-icons/simple-icons> | CC0-1.0 |
 
-Vendored files are copied from the project's `icons/` directory (light-variant files
-and single-file icons). The vendored copies are modified in two ways, applied at build
-time by `scripts/build_assets.py` (the on-disk copies are unmodified): tile backgrounds
-are recolored to the README's palette, and every icon is desaturated through an SVG
-feColorMatrix filter. Logos remain the property of their respective owners.
+19 vendored files are copied from skill-icons' `icons/` directory (light-variant
+files and single-file icons). `Krita.svg` and `Zed.svg` are not distributed by
+skill-icons; their glyphs come from Simple Icons and are wrapped here in a tile
+matching skill-icons' shape (rounded 60px rect, `#F4F2ED`, off-brand colors set to
+Krita's `#3BABFF` and Zed's `#084CCF`). The vendored copies are modified in two
+ways, applied at build time by `scripts/build_assets.py` (the on-disk copies are
+unmodified): tile backgrounds are recolored to the README's palette, and every
+icon is desaturated through an SVG feColorMatrix filter. Logos remain the
+property of their respective owners.
 
 ## git-koi (`koi/koi.gif`, drawn nightly by `.github/workflows/koi.yml`)
 
