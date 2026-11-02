@@ -1,0 +1,87 @@
+# All visible text of the profile README lives here.
+# Edit, then re-run:  .venv/bin/python scripts/build_assets.py
+# Typographic punctuation is intentional — keep it.
+
+[header]
+name = "Paulo"
+handle = "novakamiii"
+role = "Backend developer · Linux administrator · Graphics artist"
+alt = "Paulo — novakamiii — Backend developer, Linux administrator, Graphics artist."
+
+[about]
+heading = "About"
+paragraphs = [
+    "I’m a BS Information Technology student at the Polytechnic University of the Philippines, San Pedro campus.",
+    "I build backends with Laravel, TypeScript and PostgreSQL, and spend most of what’s left administering Linux — servers, window managers, whatever broke last night.",
+    "Three years of graphics work with MAIA, the multimedia arts association at PUP, and digital art on the side.",
+    "And yes, too many hours in Team Fortress 2.",
+]
+alt = "About — I’m a BS Information Technology student at the Polytechnic University of the Philippines, San Pedro campus. I build backends with Laravel, TypeScript and PostgreSQL, and spend most of what’s left administering Linux — servers, window managers, whatever broke last night. Three years of graphics work with MAIA, the multimedia arts association at PUP, and digital art on the side. And yes, too many hours in Team Fortress 2."
+
+[whoami]
+alt = "Terminal: whoami — OS: CachyOS (main) · Arch Linux (backup) · Void Linux (experimental); Kernel: 7.3.0-cachyos; WM: KDE Plasma (Wayland) · Niri · Hyprland; Terminal: kitty; Shell: fish; Editor: Neovim · Codium; School: Polytechnic University of the Philippines — San Pedro Campus; Course: BS Information Technology; Theme: Catppuccin Mocha."
+
+[[whoami.rows]]
+label = "OS"
+value = "CachyOS (main) · Arch Linux (backup) · Void Linux (experimental)"
+[[whoami.rows]]
+label = "Kernel"
+value = "7.3.0-cachyos"
+[[whoami.rows]]
+label = "WM"
+value = "KDE Plasma (Wayland) · Niri · Hyprland"
+[[whoami.rows]]
+label = "Terminal"
+value = "kitty"
+[[whoami.rows]]
+label = "Shell"
+value = "fish"
+[[whoami.rows]]
+label = "Editor"
+value = "Neovim · Codium"
+divider = true
+[[whoami.rows]]
+label = "School"
+value = "Polytechnic University of the Philippines — San Pedro Campus"
+[[whoami.rows]]
+label = "Course"
+value = "BS Information Technology"
+[[whoami.rows]]
+label = "Theme"
+value = "Catppuccin Mocha"
+
+[[projects]]
+card = "work-trapple"
+heading = "Selected work"
+name = "TRAPPLE Order Management System"
+tag = "Capstone — for a private plastic packaging manufacturer"
+body = "A customer storefront and an internal admin panel covering the whole quotation → order lifecycle, with real-time updates and lifecycle analytics — built with a small team over a year of agile iterations."
+stack = "Laravel 13 · React 19 · Inertia · TypeScript · PostgreSQL · Redis · Reverb"
+meta = "Mar 2026 → Nov 2026 · private repository"
+alt = "Selected work — TRAPPLE Order Management System: Capstone — for a private plastic packaging manufacturer. A customer storefront and an internal admin panel covering the whole quotation → order lifecycle, with real-time updates and lifecycle analytics, built with a small team over a year of agile iterations. Stack: Laravel 13, React 19, Inertia, TypeScript, PostgreSQL, Redis, Reverb. Mar 2026 → Nov 2026, private repository."
+
+[[projects]]
+card = "work-deckme"
+heading = "Selected work"
+name = "DeckMe!"
+tag = "Flashcards for desktop, web and mobile"
+body = "An Anki-inspired flashcard app: turn notes into structured decks with an LLM prompt, then study with zen mode, a pomodoro timer and progress charts. Native builds for Windows, Linux and Android, plus a web app."
+stack = "Tauri 2 · Capacitor · React · TypeScript · MUI"
+meta = "Apr 2026 → Oct 2026 · public · novakamiii/DeckMe"
+alt = "DeckMe! — Flashcards for desktop, web and mobile. An Anki-inspired flashcard app: turn notes into structured decks with an LLM prompt, then study with zen mode, a pomodoro timer and progress charts. Native builds for Windows, Linux and Android, plus a web app. Stack: Tauri 2, Capacitor, React, TypeScript, MUI. Apr 2026 → Oct 2026, public, novakamiii/DeckMe."
+link = "https://github.com/novakamiii/DeckMe"
+
+[skills]
+heading = "Stack"
+caption = "No icon for fish, kitty, CachyOS, Niri or Hyprland — see whoami."
+alt = "Stack — PHP, Laravel, TypeScript, JavaScript, React, Tailwind CSS, Vite, Python, PostgreSQL, Redis, Docker, Git, GitHub, GitHub Actions, Linux, Arch Linux, Nginx, Neovim, VSCodium, Figma, Photoshop. (No icon for fish, kitty, CachyOS, Niri or Hyprland — see whoami.)"
+
+[now]
+date = "November 2026"
+text = "This term: the capstone’s lifecycle dashboard and its technical documentation, and keeping DeckMe’s Android release pipeline green."
+alt = "November 2026 — This term: the capstone’s lifecycle dashboard and its technical documentation, and keeping DeckMe’s Android release pipeline green."
+
+[footer]
+line = "github.com/novakamiii"
+alt = "github.com/novakamiii"
+link = "https://github.com/novakamiii"
