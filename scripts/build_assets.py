@@ -337,11 +337,9 @@ def write_readme(alts: dict[str, str]) -> None:
 
 <p><img src="assets/header.svg" width="800" alt="{escape(alts["header"])}"/></p>
 
-<p>
-<table>
-<tr><td valign="top"><img src="assets/about.svg" width="536" alt="{escape(alts["about"])}"/></td><td valign="top"><img src="koi/koi.gif" width="256" alt="A pixel-art koi, redrawn from public GitHub activity each day."/></td></tr>
-</table>
-</p>
+<p><img src="assets/about.svg" width="800" alt="{escape(alts["about"])}"/></p>
+
+<p><img src="koi/koi.gif" width="256" alt="A pixel-art koi, redrawn from public GitHub activity each day."/></p>
 
 <p><img src="assets/whoami.svg" width="800" alt="{escape(alts["whoami"])}"/></p>
 
@@ -364,7 +362,7 @@ def main() -> None:
     check_contrast()
     print("building:")
     render("header", 800, "Paulo — novakamiii", CONTENT["header"]["alt"], build_header)
-    render("about", 536, "About Paulo", CONTENT["about"]["alt"], build_about)
+    render("about", 800, "About Paulo", CONTENT["about"]["alt"], build_about)
     render("whoami", 800, "whoami — system and study", CONTENT["whoami"]["alt"], build_whoami)
     for proj in CONTENT["projects"]:
         render(proj["card"], 800, proj["name"], proj["alt"], build_project, proj)

@@ -2,11 +2,9 @@
 
 <p><img src="assets/header.svg" width="800" alt="Paulo — novakamiii — Backend developer, Linux administrator, Graphics artist."/></p>
 
-<p>
-<table>
-<tr><td valign="top"><img src="assets/about.svg" width="536" alt="About — I’m a BS Information Technology student at the Polytechnic University of the Philippines, San Pedro campus. I build backends with Laravel, TypeScript and PostgreSQL, and spend most of what’s left administering Linux — servers, window managers, whatever broke last night. Three years of graphics work with MAIA, the multimedia arts association at PUP, and digital art on the side. And yes, too many hours in Team Fortress 2."/></td><td valign="top"><img src="koi/koi.gif" width="256" alt="A pixel-art koi, redrawn from public GitHub activity each day."/></td></tr>
-</table>
-</p>
+<p><img src="assets/about.svg" width="800" alt="About — I’m a BS Information Technology student at the Polytechnic University of the Philippines, San Pedro campus. I build backends with Laravel, TypeScript and PostgreSQL, and spend most of what’s left administering Linux — servers, window managers, whatever broke last night. Three years of graphics work with MAIA, the multimedia arts association at PUP, and digital art on the side. And yes, too many hours in Team Fortress 2."/></p>
+
+<p><img src="koi/koi.gif" width="256" alt="A pixel-art koi, redrawn from public GitHub activity each day."/></p>
 
 <p><img src="assets/whoami.svg" width="800" alt="Terminal: whoami — OS: CachyOS (main) · Arch Linux (backup) · Void Linux (experimental); Kernel: 7.3.0-cachyos; WM: KDE Plasma (Wayland) · Niri · Hyprland; Terminal: kitty; Shell: fish; Editor: Neovim · Codium; School: Polytechnic University of the Philippines — San Pedro Campus; Course: BS Information Technology; Theme: Catppuccin Mocha."/></p>
 
