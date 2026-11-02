@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+koi/koi.png
+koi/preview.html
+koi/snapshot.json
+.*.sha256

@@ -1,101 +1,25 @@
-<!--
-  GitHub profile README
-  - This file must live in a PUBLIC repo named exactly your GitHub username.
-  - Find-and-replace `yourusername` everywhere below with your real handle.
-  - Swap the mailto/Telegram links (or delete the ones you don't want public).
--->
-
 <div align="center">
 
-# Hi, I'm novakamiii 👋
+<p><img src="assets/header.svg" width="800" alt="novakamiii — Backend developer · Aspiring System Administrator · Graphics artist."/></p>
 
-<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=500&size=20&pause=1500&color=CBA6F7&center=true&vCenter=true&width=600&lines=BSIT+Student+at+PUP;Backend+Developer+-+Laravel+and+React;Arch+Linux+User+-+Hyprland+and+KDE;Digital+Artist+on+the+side" alt="rotating subtitle" />
+<p><img src="assets/about.svg" width="800" alt="About — I’m a BS Information Technology student at the Polytechnic University of the Philippines, San Pedro campus. I build backends with Laravel, TypeScript and PostgreSQL, and spend most of what’s left administering Linux — servers, window managers, whatever broke last night. Three years of graphics work with MAIA, the multimedia arts association at PUP, and digital art on the side. And yes, too many hours in Team Fortress 2."/></p>
 
-<p>
-  <img src="https://img.shields.io/badge/Arch_Linux-1e1e2e?style=flat-square&logo=archlinux&logoColor=1793D1" alt="Arch Linux" />
-  <img src="https://img.shields.io/badge/KDE_Plasma-1e1e2e?style=flat-square&logo=kde&logoColor=1D99F3" alt="KDE Plasma" />
-  <img src="https://img.shields.io/badge/Hyprland-1e1e2e?style=flat-square&logo=wayland&logoColor=CBA6F7" alt="Hyprland" />
-  <img src="https://img.shields.io/badge/Neovim-1e1e2e?style=flat-square&logo=neovim&logoColor=57A143" alt="Neovim" />
-</p>
+<p><img src="assets/whoami.svg" width="800" alt="Terminal: whoami — OS: CachyOS (main) · Arch Linux (backup) · Void Linux (experimental); Kernel: 7.3.0-cachyos; WM: KDE Plasma (Wayland) · Niri · Hyprland; Terminal: kitty; Shell: fish; Editor: Neovim · Zed; School: Polytechnic University of the Philippines — San Pedro Campus; Course: BS Information Technology."/></p>
 
-<p>
-  <a href="https://github.com/novakamiii"><img src="https://img.shields.io/badge/GitHub-1e1e2e?style=flat-square&logo=github&logoColor=CDD6F4" /></a>
-</p>
+<p><img src="assets/work-trapple.svg" width="800" alt="Selected work — TRAPPLE Order Management System: Capstone — for a private plastic packaging manufacturer. A customer storefront and an internal admin panel covering the whole quotation → order lifecycle, with real-time updates and lifecycle analytics, built with a small team over a year of agile iterations. Stack: Laravel 13, React 19, Inertia, TypeScript, PostgreSQL, Redis, Reverb. Mar 2026 → Nov 2026, private repository."/></p>
+<p><a href="https://github.com/novakamiii/DeckMe"><img src="assets/work-deckme.svg" width="800" alt="DeckMe! — Flashcards for desktop, web and mobile. An Anki-inspired flashcard app: turn notes into structured decks with an LLM prompt, then study with zen mode, a pomodoro timer and progress charts. Native builds for Windows, Linux and Android, plus a web app. Stack: Tauri 2, Capacitor, React, TypeScript, MUI. Apr 2026 → Oct 2026, public, novakamiii/DeckMe."/></a></p>
 
-</div>
+<p><img src="assets/skills.svg" width="800" alt="Stack — PHP, Laravel, TypeScript, JavaScript, React, Tailwind CSS, Vite, Python, PostgreSQL, Redis, Docker, Git, GitHub, GitHub Actions, Linux, Arch Linux, Nginx, Neovim, VSCodium, Zed, Krita."/></p>
 
-<br>
+<p><img src="assets/now.svg" width="800" alt="November 2026 — This term: the capstone’s lifecycle dashboard and its technical documentation, and keeping DeckMe’s Android release pipeline green."/></p>
 
-### `whoami`
+<p><a href="https://github.com/novakamiii"><img src="assets/footer.svg" width="800" alt="github.com/novakamiii"/></a></p>
 
-```txt
-OS        CachyOS (main) · Arch Linux (backup) · Void Linux (experimental)
-Kernel    7.0.0-cachyos
-WM        KDE Plasma (Wayland) · Niri · Hyprland
-Terminal  kitty
-Shell     fish
-Editor    Neovim · Codium
+<p><img src="assets/views.svg" width="800" alt="You are the 143rd viewer. Welcome."/></p>
 
-School    Polytechnic University of the Philippines - San Pedro Campus
-Course    BS Information Technology, 3rd Year
-Theme     Catppuccin Mocha
-```
-
-<p align="center">
-<img src="https://img.shields.io/badge/-F5C2E7?style=flat-square" width="22" /> <img src="https://img.shields.io/badge/-CBA6F7?style=flat-square" width="22" /> <img src="https://img.shields.io/badge/-F38BA8?style=flat-square" width="22" /> <img src="https://img.shields.io/badge/-FAB387?style=flat-square" width="22" /> <img src="https://img.shields.io/badge/-A6E3A1?style=flat-square" width="22" /> <img src="https://img.shields.io/badge/-94E2D5?style=flat-square" width="22" /> <img src="https://img.shields.io/badge/-89B4FA?style=flat-square" width="22" /> <img src="https://img.shields.io/badge/-B4BEFE?style=flat-square" width="22" />
-</p>
-
-### About
-
-BSIT student and backend developer based in the Philippines. I build with Laravel, TypeScript/React, and PostgreSQL, and spend most of my remaining time on Linux system administration — servers, window managers, whatever's broken this week. Three-year graphics artist with MAIA (Multimedia Arts and Information Association) at PUP San Pedro, and a digital artist on the side.
-
-### 🚀 Currently building
-
-**Company Site / TRAPPLE Order Management System** — an order-management system built as my capstone, for a plastic packaging manufacturer (Private).
-
-- Laravel + React (Inertia.js) on PostgreSQL, with Redis-backed queues and Reverb for real-time WebSocket updates
-- A customer-facing storefront plus an internal OMS/admin panel covering the full quotation → order lifecycle
-- Built with a small team across several agile iterations
-
-### 🛠️ Stack
-
-<p>
-  <img src="https://img.shields.io/badge/PHP-1e1e2e?style=flat-square&logo=php&logoColor=777BB4" />
-  <img src="https://img.shields.io/badge/Laravel-1e1e2e?style=flat-square&logo=laravel&logoColor=FF2D20" />
-  <img src="https://img.shields.io/badge/TypeScript-1e1e2e?style=flat-square&logo=typescript&logoColor=3178C6" />
-  <img src="https://img.shields.io/badge/React-1e1e2e?style=flat-square&logo=react&logoColor=61DAFB" />
-  <img src="https://img.shields.io/badge/JavaScript-1e1e2e?style=flat-square&logo=javascript&logoColor=F7DF1E" />
-  <img src="https://img.shields.io/badge/Python-1e1e2e?style=flat-square&logo=python&logoColor=3776AB" />
-  <img src="https://img.shields.io/badge/PostgreSQL-1e1e2e?style=flat-square&logo=postgresql&logoColor=4169E1" />
-  <img src="https://img.shields.io/badge/Redis-1e1e2e?style=flat-square&logo=redis&logoColor=DC382D" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-1e1e2e?style=flat-square&logo=tailwindcss&logoColor=38BDF8" />
-  <img src="https://img.shields.io/badge/Vite-1e1e2e?style=flat-square&logo=vite&logoColor=646CFF" />
-  <img src="https://img.shields.io/badge/Bash-1e1e2e?style=flat-square&logo=gnubash&logoColor=4EAA25" />
-</p>
-
-### 📊 Stats
-
-<p>
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=novakamiii&show_icons=true&theme=catppuccin_mocha&hide_border=true&count_private=true" alt="GitHub stats" />
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=novakamiii&layout=compact&theme=catppuccin_mocha&hide_border=true" alt="Top languages" />
-</p>
-
-<img src="https://streak-stats.demolab.com/?user=novakamiii&theme=catppuccin-mocha&hide_border=true" alt="Streak stats" />
-
-<img src="https://github-profile-trophy.vercel.app/?username=novakamiii&theme=onedark&no-frame=true&row=1&column=6&margin-w=8" alt="Trophies" />
-
-### 🏆 Shipped recently
-
-- Real-time lifecycle analytics for OMS, with WebSocket-driven dashboards
-- Pentested the capstone app myself with Nuclei, ZAP, and Burp Suite
-- A personal library of OpenCode dev skills — commit messages, changelogs, diagram generation, API docs
-
-### 🎮 Beyond the terminal
-
-Experimenting stuffs and learning Linux cuz I have too much time, too many hours in Team Fortress 2, and digital art on the side.
-
-<div align="center">
-
-![Profile views](https://komarev.com/ghpvc/?username=novakamiii&color=CBA6F7&style=flat-square&label=Profile+Views)
+<!-- 1px counter pixel: the only source of the view count. It increments the
+     badge service; scripts/update_views.py bakes that number into the plain-text
+     views card above nightly. -->
+<p><img src="https://komarev.com/ghpvc/?username=novakamiii&amp;label=&amp;color=7f6dab" width="1" height="1" alt=""/></p>
 
 </div>
