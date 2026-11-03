@@ -80,7 +80,7 @@ alt = "November 2026 — This term: the capstone’s lifecycle dashboard and its
 [views]
 # a viewer counter rendered as plain text; {ord} becomes e.g. "143rd".
 # The workflow refreshes "count" nightly; locally the last known value is used.
-count = 147
+count = 153
 sentence = "You are the {ord} viewer. Welcome."
 alt = "You are the {ord} viewer. Welcome."
 
