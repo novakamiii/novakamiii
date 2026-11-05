@@ -230,28 +230,98 @@ def build_about(c: Card) -> int:
     return round(y + 4)
 
 
-def build_whoami(c: Card) -> int:
-    y = 50
-    y = c.heading(y, "whoami")
-    label_w = 106
-    top = y - 12
-    rows = CONTENT["whoami"]["rows"]
-    body: list[str] = []
+# Latte accents for the fastfetch glyphs and the dot row at the bottom.
+FF_DOTS = ["#d20f39", "#fe640b", "#df8e1d", "#40a02b", "#179299", "#04a5e5", "#7287fd", "#8839ef", "#ea76cb", "#dc8a78"]
+
+
+def _ff_icon(c: Card, x: float, y: float, kind: str, color: str) -> None:
+    """A small colored glyph in an 11×11 box ending at the text baseline y."""
+    t = y - 10  # top of the box
+    g = lambda v: f"{v:g}"  # noqa: E731
+    p = c.parts
+    if kind == "os":
+        p.append(f'<path d="M{g(x + 5.5)},{g(t + 1)} L{g(x + 10.6)},{g(t + 10)} L{g(x + 0.4)},{g(t + 10)} Z" fill="{color}"/>')
+    elif kind == "kernel":
+        p.append(f'<circle cx="{g(x + 5.5)}" cy="{g(t + 5.5)}" r="4.4" fill="none" stroke="{color}" stroke-width="1.6"/>'
+                 f'<path d="M{g(x + 5.5)},{g(t + 3)} V{g(t + 5.5)} H{g(x + 7.7)}" fill="none" stroke="{color}" stroke-width="1.4" stroke-linecap="round"/>')
+    elif kind == "wm":
+        for dx in (0.4, 6.0):
+            for dy in (0.4, 6.0):
+                p.append(f'<rect x="{g(x + dx)}" y="{g(t + dy)}" width="4.6" height="4.6" rx="1" fill="{color}"/>')
+    elif kind == "terminal":
+        p.append(f'<rect x="{g(x + 0.5)}" y="{g(t + 1.5)}" width="10" height="8" rx="1.5" fill="none" stroke="{color}" stroke-width="1.4"/>'
+                 f'<path d="M{g(x + 2.6)},{g(t + 4)} L{g(x + 4.6)},{g(t + 5.5)} L{g(x + 2.6)},{g(t + 7)}" fill="none" stroke="{color}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>'
+                 f'<path d="M{g(x + 6.1)},{g(t + 7)} H{g(x + 8.6)}" stroke="{color}" stroke-width="1.2" stroke-linecap="round"/>')
+    elif kind == "shell":
+        p.append(f'<path d="M{g(x + 4.4)},{g(t + 0.8)} L{g(x + 3.6)},{g(t + 10.2)} M{g(x + 7.6)},{g(t + 0.8)} L{g(x + 6.8)},{g(t + 10.2)}'
+                 f' M{g(x + 1.2)},{g(t + 4.2)} H{g(x + 10)} M{g(x + 1)},{g(t + 7.2)} H{g(x + 9.8)}" stroke="{color}" stroke-width="1.5" stroke-linecap="round"/>')
+    elif kind == "editor":
+        p.append(f'<path d="M{g(x + 1)},{g(t + 10)} L{g(x + 2.1)},{g(t + 6.7)} L{g(x + 8.3)},{g(t + 0.5)} L{g(x + 10.7)},{g(t + 2.9)} L{g(x + 4.5)},{g(t + 9.1)} Z" fill="{color}"/>')
+    elif kind == "school":
+        p.append(f'<path d="M{g(x + 0.8)},{g(t + 1.8)} C{g(x + 3)},{g(t + 0.6)} {g(x + 5.2)},{g(t + 1)} {g(x + 5.5)},{g(t + 2.6)}'
+                 f' C{g(x + 5.8)},{g(t + 1)} {g(x + 8)},{g(t + 0.6)} {g(x + 10.2)},{g(t + 1.8)} V{g(t + 9.6)}'
+                 f' C{g(x + 8)},{g(t + 8.4)} {g(x + 5.8)},{g(t + 8.8)} {g(x + 5.5)},{g(t + 10.4)}'
+                 f' C{g(x + 5.2)},{g(t + 8.8)} {g(x + 3)},{g(t + 8.4)} {g(x + 0.8)},{g(t + 9.6)} Z" fill="{color}"/>')
+    elif kind == "course":
+        p.append(f'<path d="M{g(x + 5.5)},{g(t + 0.6)} L{g(x + 11)},{g(t + 3.6)} L{g(x + 5.5)},{g(t + 6.6)} L{g(x + 0)},{g(t + 3.6)} Z" fill="{color}"/>'
+                 f'<path d="M{g(x + 2.4)},{g(t + 5.4)} V{g(t + 8.4)} C{g(x + 2.4)},{g(t + 10.4)} {g(x + 8.6)},{g(t + 10.4)} {g(x + 8.6)},{g(t + 8.4)} V{g(t + 5.4)}" fill="none" stroke="{color}" stroke-width="1.3"/>')
+    else:  # fallback: a dot
+        p.append(f'<circle cx="{g(x + 5.5)}" cy="{g(t + 5.5)}" r="4" fill="{color}"/>')
+
+
+FF_ROW_STYLE = {
+    "OS": ("os", "#40a02b"),
+    "Kernel": ("kernel", "#d20f39"),
+    "WM": ("wm", "#179299"),
+    "Terminal": ("terminal", "#04a5e5"),
+    "Shell": ("shell", "#df8e1d"),
+    "Editor": ("editor", "#8839ef"),
+    "School": ("school", "#1e66f5"),
+    "Course": ("course", "#ea76cb"),
+}
+
+
+def build_fastfetch(c: Card) -> int:
+    """Terminal-style panel: the chibi gif on the left, label-glyph rows on the right."""
+    rows = CONTENT["fastfetch"]["rows"]
+    gif_x, gif_s = 28, 224
+    gx = gif_x + gif_s + 28  # right column: title, glyph rows, dots
+    # Layout pass first: two-line values move the dot row (and card height) down.
+    y = 100
     for row in rows:
-        body.append(f'<text x="{c.pad + 16:g}" y="{y:g}" font-family="{MONO}" font-size="13.5" font-weight="700" fill="{SUBTEXT0}">{escape(row["label"])}</text>')
-        body.append(f'<text x="{c.pad + 16 + label_w:g}" y="{y:g}" font-family="{MONO}" font-size="13.5" fill="{TEXT}">{escape(row["value"])}</text>')
-        c.used["mono_b"] = c.used.get("mono_b", "") + row["label"]
-        c.used["mono_r"] = c.used.get("mono_r", "") + row["value"]
-        y += 25
-        if row.get("divider"):
-            y += 10
-            body.append(f'<line x1="{c.pad + 16:g}" y1="{y:g}" x2="{c.w - c.pad - 16:g}" y2="{y:g}" stroke="{CRUST}" stroke-width="1"/>')
-            y += 11
-    bottom = y - 9
-    inset = f'<rect x="{c.pad}" y="{top}" width="{c.w - 2 * c.pad}" height="{bottom - top}" rx="6" fill="{MANTLE}"/>'
-    c.parts.insert(0, inset)
-    c.parts.extend(body)
-    return round(bottom + 12)
+        lines = wrap("mono_r", row["value"], 13.5, c.w - c.pad - (gx + 22))
+        y += 24 + (len(lines) - 1) * 19
+    dots_y = y + 6
+    H = round(dots_y + 20)
+
+    # right column
+    c.text(gx, 66, "novakamiii", "mono_b", 16, TEXT)
+    c.rule(gx, 74, gx + 42, ACCENT, 2)
+    y = 100
+    for row in rows:
+        kind, color = FF_ROW_STYLE.get(row["label"], ("dot", ACCENT))
+        _ff_icon(c, gx, y, kind, color)
+        lines = wrap("mono_r", row["value"], 13.5, c.w - c.pad - (gx + 22))
+        for i, line in enumerate(lines):
+            c.text(gx + 22, y + i * 19, line, "mono_r", 13.5, TEXT)
+        y += 24 + (len(lines) - 1) * 19
+    for i, col in enumerate(FF_DOTS):
+        c.parts.append(f'<circle cx="{gx + i * 15 + 4:g}" cy="{dots_y:g}" r="4" fill="{col}"/>')
+
+    # inset panel behind the right column, drawn under everything else
+    panel = f'<rect x="{gx - 16}" y="52" width="{c.w - c.pad - (gx - 16)}" height="{H - 52 - 14}" rx="6" fill="{MANTLE}"/>'
+    c.parts.insert(0, panel)
+
+    # left: the chibi gif, injected by scripts/embed_fastfetch.py
+    c.parts.insert(0, (
+        '<defs><clipPath id="ff-clip">'
+        f'<rect x="{gif_x}" y="44" width="{gif_s}" height="{gif_s}" rx="8"/></clipPath></defs>'
+    ))
+    c.parts.append(
+        f'<g clip-path="url(#ff-clip)"><image x="{gif_x}" y="44" width="{gif_s}" height="{gif_s}" '
+        'preserveAspectRatio="xMidYMid slice" href="data:image/gif;base64,@@FASTFETCH@@"/></g>'
+    )
+    return H
 
 
 def build_project(c: Card, proj: dict) -> int:
@@ -332,12 +402,6 @@ def build_now(c: Card) -> int:
     return round(y + 16)
 
 
-def build_footer(c: Card) -> int:
-    y = 54
-    c.text(c.w / 2, y, CONTENT["footer"]["line"], "mono_r", 14, SUBTEXT0, anchor="middle")
-    return round(y + 30)
-
-
 def build_views(c: Card) -> int:
     # The count is baked in as plain text; scripts/update_views.py refreshes it
     # nightly by patching this text node (no rebuild needed).
@@ -403,7 +467,7 @@ def write_readme(alts: dict[str, str]) -> None:
 
 <p><img src="assets/about.svg" width="800" alt="{escape(alts["about"])}"/></p>
 
-<p><img src="assets/whoami.svg" width="800" alt="{escape(alts["whoami"])}"/></p>
+<p><img src="assets/fastfetch.svg" width="800" alt="{escape(alts["fastfetch"])}"/></p>
 
 <p><img src="assets/work-trapple.svg" width="800" alt="{escape(alts["trapple"])}"/></p>
 <p><a href="{deck_link}"><img src="assets/work-deckme.svg" width="800" alt="{escape(alts["deckme"])}"/></a></p>
@@ -411,8 +475,6 @@ def write_readme(alts: dict[str, str]) -> None:
 <p><img src="assets/skills.svg" width="800" alt="{escape(alts["skills"])}"/></p>
 
 <p><img src="assets/now.svg" width="800" alt="{escape(alts["now"])}"/></p>
-
-<p><a href="https://github.com/novakamiii"><img src="assets/footer.svg" width="800" alt="{escape(alts["footer"])}"/></a></p>
 
 <p><img src="assets/views.svg" width="800" alt="{escape(alts["views"])}"/></p>
 
@@ -433,12 +495,11 @@ def main() -> None:
     views_txt, views_alt = views_sentence()
     render("header", 800, "novakamiii", CONTENT["header"]["alt"], build_header)
     render("about", 800, "About", CONTENT["about"]["alt"], build_about)
-    render("whoami", 800, "whoami — system and study", CONTENT["whoami"]["alt"], build_whoami)
+    render("fastfetch", 800, "fastfetch", CONTENT["fastfetch"]["alt"], build_fastfetch)
     for proj in CONTENT["projects"]:
         render(proj["card"], 800, proj["name"], proj["alt"], build_project, proj)
     render("skills", 800, "Stack", CONTENT["skills"]["alt"], build_skills)
     render("now", 800, "Now", CONTENT["now"]["alt"], build_now)
-    render("footer", 800, "github.com/novakamiii", CONTENT["footer"]["alt"], build_footer)
     render("views", 800, "Profile views", views_alt, build_views)
     total = sum(p.stat().st_size for p in ASSETS.glob("*.svg"))
     print(f"  total assets: {total / 1024:.1f} KB")
@@ -446,20 +507,21 @@ def main() -> None:
     alts = {
         "header": CONTENT["header"]["alt"],
         "about": CONTENT["about"]["alt"],
-        "whoami": CONTENT["whoami"]["alt"],
+        "fastfetch": CONTENT["fastfetch"]["alt"],
         "trapple": CONTENT["projects"][0]["alt"],
         "deckme": CONTENT["projects"][1]["alt"],
         "skills": CONTENT["skills"]["alt"],
         "now": CONTENT["now"]["alt"],
-        "footer": CONTENT["footer"]["alt"],
         "views": views_alt,
     }
     write_readme(alts)
 
-    # Restore the fish: any rebuild deletes its embedded GIF, so re-embed.
-    subdir = subprocess.run([sys.executable, str(ROOT / "scripts" / "embed_koi.py")], check=False, capture_output=True, text=True)
-    if subdir.stdout.strip():
-        print(subdir.stdout.strip())
+    # Restore the fish and the chibi: any rebuild deletes their embedded GIFs,
+    # so both embedders run at the end.
+    for script in ("embed_koi.py", "embed_fastfetch.py"):
+        subdir = subprocess.run([sys.executable, str(ROOT / "scripts" / script)], check=False, capture_output=True, text=True)
+        if subdir.stdout.strip():
+            print(subdir.stdout.strip())
 
 
 if __name__ == "__main__":

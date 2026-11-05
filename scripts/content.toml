@@ -18,32 +18,31 @@ paragraphs = [
 ]
 alt = "About — I’m a BS Information Technology student at the Polytechnic University of the Philippines, San Pedro campus. I build backends with Laravel, TypeScript and PostgreSQL, and spend most of what’s left administering Linux — servers, window managers, whatever broke last night. Three years of graphics work with MAIA, the multimedia arts association at PUP, and digital art on the side. And yes, too many hours in Team Fortress 2."
 
-[whoami]
-alt = "Terminal: whoami — OS: CachyOS (main) · Arch Linux (backup) · Void Linux (experimental); Kernel: 7.3.0-cachyos; WM: KDE Plasma (Wayland) · Niri · Hyprland; Terminal: kitty; Shell: fish; Editor: Neovim · Zed; School: Polytechnic University of the Philippines — San Pedro Campus; Course: BS Information Technology."
+[fastfetch]
+alt = "fastfetch — OS: CachyOS (main) · Arch Linux (backup) · Void Linux (experimental); Kernel: 7.3.0-cachyos; WM: KDE Plasma (Wayland) · Niri · Hyprland; Terminal: kitty; Shell: fish; Editor: Neovim · Zed; School: Polytechnic University of the Philippines — San Pedro Campus; Course: BS Information Technology."
 
-[[whoami.rows]]
+[[fastfetch.rows]]
 label = "OS"
 value = "CachyOS (main) · Arch Linux (backup) · Void Linux (experimental)"
-[[whoami.rows]]
+[[fastfetch.rows]]
 label = "Kernel"
 value = "7.3.0-cachyos"
-[[whoami.rows]]
+[[fastfetch.rows]]
 label = "WM"
 value = "KDE Plasma (Wayland) · Niri · Hyprland"
-[[whoami.rows]]
+[[fastfetch.rows]]
 label = "Terminal"
 value = "kitty"
-[[whoami.rows]]
+[[fastfetch.rows]]
 label = "Shell"
 value = "fish"
-[[whoami.rows]]
+[[fastfetch.rows]]
 label = "Editor"
 value = "Neovim · Zed"
-divider = true
-[[whoami.rows]]
+[[fastfetch.rows]]
 label = "School"
 value = "Polytechnic University of the Philippines — San Pedro Campus"
-[[whoami.rows]]
+[[fastfetch.rows]]
 label = "Course"
 value = "BS Information Technology"
 
@@ -84,7 +83,3 @@ count = 159
 sentence = "You are the {ord} viewer. Welcome."
 alt = "You are the {ord} viewer. Welcome."
 
-[footer]
-line = "github.com/novakamiii"
-alt = "github.com/novakamiii"
-link = "https://github.com/novakamiii"
