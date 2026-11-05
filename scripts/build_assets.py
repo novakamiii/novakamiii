@@ -284,15 +284,18 @@ FF_ROW_STYLE = {
 def build_fastfetch(c: Card) -> int:
     """Terminal-style panel: the chibi gif on the left, label-glyph rows on the right."""
     rows = CONTENT["fastfetch"]["rows"]
-    gif_x, gif_s = 28, 224
-    gx = gif_x + gif_s + 28  # right column: title, glyph rows, dots
-    # Layout pass first: two-line values move the dot row (and card height) down.
+    size = 13
+    gif_x, gif_s = 28, 176
+    gx = gif_x + gif_s + 24  # right column: title, glyph rows, dots
+    # Layout pass first: the card height follows the rows (they are one-liners;
+    # wrap() only catches regressions if a future value outgrows the column).
     y = 100
     for row in rows:
-        lines = wrap("mono_r", row["value"], 13.5, c.w - c.pad - (gx + 22))
+        lines = wrap("mono_r", row["value"], size, c.w - c.pad - (gx + 22))
         y += 24 + (len(lines) - 1) * 19
     dots_y = y + 6
     H = round(dots_y + 20)
+    gif_y = (H - gif_s) / 2
 
     # right column
     c.text(gx, 66, "novakamiii", "mono_b", 16, TEXT)
@@ -301,9 +304,9 @@ def build_fastfetch(c: Card) -> int:
     for row in rows:
         kind, color = FF_ROW_STYLE.get(row["label"], ("dot", ACCENT))
         _ff_icon(c, gx, y, kind, color)
-        lines = wrap("mono_r", row["value"], 13.5, c.w - c.pad - (gx + 22))
+        lines = wrap("mono_r", row["value"], size, c.w - c.pad - (gx + 22))
         for i, line in enumerate(lines):
-            c.text(gx + 22, y + i * 19, line, "mono_r", 13.5, TEXT)
+            c.text(gx + 22, y + i * 19, line, "mono_r", size, TEXT)
         y += 24 + (len(lines) - 1) * 19
     for i, col in enumerate(FF_DOTS):
         c.parts.append(f'<circle cx="{gx + i * 15 + 4:g}" cy="{dots_y:g}" r="4" fill="{col}"/>')
@@ -315,10 +318,10 @@ def build_fastfetch(c: Card) -> int:
     # left: the chibi gif, injected by scripts/embed_fastfetch.py
     c.parts.insert(0, (
         '<defs><clipPath id="ff-clip">'
-        f'<rect x="{gif_x}" y="44" width="{gif_s}" height="{gif_s}" rx="8"/></clipPath></defs>'
+        f'<rect x="{gif_x:g}" y="{gif_y:g}" width="{gif_s}" height="{gif_s}" rx="8"/></clipPath></defs>'
     ))
     c.parts.append(
-        f'<g clip-path="url(#ff-clip)"><image x="{gif_x}" y="44" width="{gif_s}" height="{gif_s}" '
+        f'<g clip-path="url(#ff-clip)"><image x="{gif_x:g}" y="{gif_y:g}" width="{gif_s}" height="{gif_s}" '
         'preserveAspectRatio="xMidYMid slice" href="data:image/gif;base64,@@FASTFETCH@@"/></g>'
     )
     return H

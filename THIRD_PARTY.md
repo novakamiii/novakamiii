@@ -29,6 +29,16 @@ unmodified): tile backgrounds are recolored to the README's palette, and every
 icon is desaturated through an SVG feColorMatrix filter. Logos remain the
 property of their respective owners.
 
+## The fastfetch chibi (`assets/fastfetch-logo.gif`)
+
+| Artist | Source |
+| --- | --- |
+| 赤鬼二号 (akaoni2gou) | <https://x.com/akaoni2gou> |
+
+The chibi GIF is the artist's own work, used in the fastfetch card with the
+handle kept intact; the embedded copy in `assets/fastfetch.svg` is only a
+re-encoded smaller version of it.
+
 ## git-koi (`koi/koi.gif`, drawn nightly by `.github/workflows/koi.yml`)
 
 | Project | Source | License |
