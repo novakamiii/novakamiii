@@ -289,7 +289,7 @@ def build_fastfetch(c: Card) -> int:
     gx = gif_x + gif_s + 24  # right column: title, glyph rows, dots
     # Layout pass first: the card height follows the rows (they are one-liners;
     # wrap() only catches regressions if a future value outgrows the column).
-    y = 100
+    y = 62
     for row in rows:
         lines = wrap("mono_r", row["value"], size, c.w - c.pad - (gx + 22))
         y += 24 + (len(lines) - 1) * 19
@@ -298,9 +298,9 @@ def build_fastfetch(c: Card) -> int:
     gif_y = (H - gif_s) / 2
 
     # right column
-    c.text(gx, 66, "novakamiii", "mono_b", 16, TEXT)
-    c.rule(gx, 74, gx + 42, ACCENT, 2)
-    y = 100
+    c.text(gx, 28, "novakamiii", "mono_b", 16, TEXT)
+    c.rule(gx, 36, gx + 42, ACCENT, 2)
+    y = 62
     for row in rows:
         kind, color = FF_ROW_STYLE.get(row["label"], ("dot", ACCENT))
         _ff_icon(c, gx, y, kind, color)
@@ -312,7 +312,7 @@ def build_fastfetch(c: Card) -> int:
         c.parts.append(f'<circle cx="{gx + i * 15 + 4:g}" cy="{dots_y:g}" r="4" fill="{col}"/>')
 
     # inset panel behind the right column, drawn under everything else
-    panel = f'<rect x="{gx - 16}" y="52" width="{c.w - c.pad - (gx - 16)}" height="{H - 52 - 14}" rx="6" fill="{MANTLE}"/>'
+    panel = f'<rect x="{gx - 16}" y="14" width="{c.w - c.pad - (gx - 16)}" height="{H - 14 - 14}" rx="6" fill="{MANTLE}"/>'
     c.parts.insert(0, panel)
 
     # left: the chibi gif, injected by scripts/embed_fastfetch.py
@@ -481,10 +481,10 @@ def write_readme(alts: dict[str, str]) -> None:
 
 <p><img src="assets/views.svg" width="800" alt="{escape(alts["views"])}"/></p>
 
-<!-- 1px counter pixel: the only source of the view count. It increments the
+<!-- 0x0 counter pixel: the only source of the view count. It increments the
      badge service; scripts/update_views.py bakes that number into the plain-text
      views card above nightly. -->
-<p><img src="https://komarev.com/ghpvc/?username=novakamiii&amp;label=&amp;color=7f6dab" width="1" height="1" alt=""/></p>
+<p><img src="https://komarev.com/ghpvc/?username=novakamiii&amp;label=&amp;color=7f6dab" width="0" height="0" alt=""/></p>
 
 </div>
 """
