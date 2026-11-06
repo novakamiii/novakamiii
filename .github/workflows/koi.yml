@@ -34,15 +34,19 @@ jobs:
       - name: Refresh the plain-text view counter
         shell: bash
         run: python3 scripts/update_views.py
+      - name: Refresh the GitHub Stats card
+        env:
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+        run: python3 scripts/update_metrics.py
       - name: Commit the koi if it changed
         shell: bash
         run: |
-          git add koi/koi.gif assets/header.svg assets/views.svg scripts/content.toml
+          git add koi/koi.gif assets/header.svg assets/views.svg assets/metrics.svg scripts/content.toml README.md
           if git diff --cached --quiet; then
             echo "Nothing changed; nothing to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit --quiet --message "koi: draw the day's koi and refresh the view count"
+          git commit --quiet --message "koi: draw the day's koi, refresh the view count and stats"
           git push --quiet

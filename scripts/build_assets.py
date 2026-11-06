@@ -112,12 +112,13 @@ class Card:
         self.parts: list[str] = []
         self.used: dict[str, str] = {}  # face key -> chars
 
-    def text(self, x, y, s, key, size, fill, *, anchor=None, spacing=None):
+    def text(self, x, y, s, key, size, fill, *, anchor=None, spacing=None, field=None):
         weight = 'font-weight="700"' if key.endswith("_b") else None
         style = 'font-style="italic"' if key.endswith("_i") else None
         fam = SERIF if key.startswith("serif") else MONO
         attrs = [f'x="{x:g}"', f'y="{y:g}"', f'font-family="{fam}"', f'font-size="{size:g}"', f'fill="{fill}"']
-        attrs += [a for a in (weight, style, anchor and f'text-anchor="{anchor}"', spacing and f'letter-spacing="{spacing}"') if a]
+        attrs += [a for a in (weight, style, anchor and f'text-anchor="{anchor}"',
+                              spacing and f'letter-spacing="{spacing}"', field and f'data-field="{field}"') if a]
         self.parts.append(f"<text {' '.join(attrs)}>{escape(s)}</text>")
         self.used[key] = self.used.get(key, "") + s
 
@@ -189,6 +190,20 @@ def views_sentence() -> tuple[str, str]:
     return (
         CONTENT["views"]["sentence"].replace("{ord}", s),
         CONTENT["views"]["alt"].replace("{ord}", s),
+    )
+
+
+def metrics_alt() -> str:
+    """The metrics alt text, with the baked numbers filled into its placeholders."""
+    m = CONTENT["metrics"]
+    by_label = {row["label"]: row["value"] for row in m["stats"]}
+    return m["alt"].format(
+        total=m["contributions"]["total"], total_range=m["contributions"]["total_range"],
+        streak=m["contributions"]["streak"], streak_range=m["contributions"]["streak_range"],
+        stars=by_label["Total Stars Earned"], commits=by_label["Total Commits (last year)"],
+        prs=by_label["Total PRs"], issues=by_label["Total Issues"],
+        contributed=by_label["Contributed to (last year)"],
+        langs=", ".join(f'{lang["name"]} {lang["pct"]}%' for lang in m["languages"]),
     )
 
 
@@ -360,21 +375,21 @@ def build_metrics(c: Card) -> int:
 
     # contributions: two stacked figures split by a hairline
     con, cx = m["contributions"], cols[0] + pw / 2
-    for (num, label, rng), b in (
-        ((con["total"], con["total_label"], con["total_range"]), top + 60),
-        ((con["streak"], con["streak_label"], con["streak_range"]), top + 138),
-    ):
-        c.text(cx, b, num, "mono_b", 26, TEXT, anchor="middle")
-        c.text(cx, b + 18, label, "mono_r", 11.5, TEXT, anchor="middle")
-        c.text(cx, b + 33, rng, "mono_r", 10.5, SUBTEXT0, anchor="middle")
+    c.text(cx, top + 60, con["total"], "mono_b", 26, TEXT, anchor="middle", field="total")
+    c.text(cx, top + 78, con["total_label"], "mono_r", 11.5, TEXT, anchor="middle")
+    c.text(cx, top + 93, con["total_range"], "mono_r", 10.5, SUBTEXT0, anchor="middle", field="total_range")
     c.rule(cols[0] + inset, top + 112, cols[0] + pw - inset, CRUST, 1)
+    c.text(cx, top + 138, con["streak"], "mono_b", 26, TEXT, anchor="middle", field="streak")
+    c.text(cx, top + 156, con["streak_label"], "mono_r", 11.5, TEXT, anchor="middle")
+    c.text(cx, top + 171, con["streak_range"], "mono_r", 10.5, SUBTEXT0, anchor="middle", field="streak_range")
 
     # repo totals: compact label/value rows
     sx = cols[1]
-    for i, row in enumerate(m["stats"]):
+    stat_fields = ("stars", "commits", "prs", "issues", "contributed")
+    for i, (row, field) in enumerate(zip(m["stats"], stat_fields)):
         b = top + 58 + i * 25
         c.text(sx + inset, b, row["label"], "mono_r", 11.5, TEXT)
-        c.text(sx + pw - inset, b, row["value"], "mono_b", 11.5, TEXT, anchor="end")
+        c.text(sx + pw - inset, b, row["value"], "mono_b", 11.5, TEXT, anchor="end", field=field)
 
     # languages: stacked bar over a compact legend; the CRUST track shows the remainder
     lx = cols[2]
@@ -385,18 +400,23 @@ def build_metrics(c: Card) -> int:
         f'<rect x="{lx + inset:g}" y="{bar_y:g}" width="{bw:g}" height="7" rx="3.5"/></clipPath></defs>'
     )
     c.parts.append('<g clip-path="url(#metrics-bar)">')
-    c.parts.append(f'<rect x="{lx + inset:g}" y="{bar_y:g}" width="{bw:g}" height="7" fill="{CRUST}"/>')
+    c.parts.append(f'<rect data-field="lang-track" x="{lx + inset:g}" y="{bar_y:g}" width="{bw:g}" height="7" fill="{CRUST}"/>')
     seg_x = lx + inset
     for i, lang in enumerate(langs):
         w = float(lang["pct"]) / 100 * bw
-        c.parts.append(f'<rect x="{seg_x:g}" y="{bar_y:g}" width="{w:g}" height="7" fill="{FF_DOTS[i]}"/>')
+        c.parts.append(f'<rect data-field="lang-seg-{i}" x="{seg_x:g}" y="{bar_y:g}" width="{w:g}" height="7" fill="{FF_DOTS[i]}"/>')
         seg_x += w
     c.parts.append("</g>")
     for i, lang in enumerate(langs):
         b = top + 70 + i * 19
         c.parts.append(f'<circle cx="{lx + inset + 5:g}" cy="{b - 3.5:g}" r="3.5" fill="{FF_DOTS[i]}"/>')
-        c.text(lx + inset + 14, b, lang["name"], "mono_r", 10.5, TEXT)
-        c.text(lx + pw - inset, b, f'{lang["pct"]}%', "mono_r", 10.5, SUBTEXT0, anchor="end")
+        c.text(lx + inset + 14, b, lang["name"], "mono_r", 10.5, TEXT, field=f"lang-name-{i}")
+        c.text(lx + pw - inset, b, f'{lang["pct"]}%', "mono_r", 10.5, SUBTEXT0, anchor="end", field=f"lang-pct-{i}")
+    # The nightly updater rewrites these text nodes in place (see
+    # scripts/update_metrics.py); force-subset every glyph it may write.
+    pad = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,%–"
+    c.used["mono_r"] = c.used.get("mono_r", "") + pad
+    c.used["mono_b"] = c.used.get("mono_b", "") + pad
     return round(top + H + 24)
 
 
@@ -559,7 +579,7 @@ def main() -> None:
     render("fastfetch", 800, "fastfetch", CONTENT["fastfetch"]["alt"], build_fastfetch)
     for proj in CONTENT["projects"]:
         render(proj["card"], 800, proj["name"], proj["alt"], build_project, proj)
-    render("metrics", 800, "GitHub Stats", CONTENT["metrics"]["alt"], build_metrics)
+    render("metrics", 800, "GitHub Stats", metrics_alt(), build_metrics)
     render("skills", 800, "Stack", CONTENT["skills"]["alt"], build_skills)
     render("now", 800, "Now", CONTENT["now"]["alt"], build_now)
     render("views", 800, "Profile views", views_alt, build_views)
@@ -572,7 +592,7 @@ def main() -> None:
         "fastfetch": CONTENT["fastfetch"]["alt"],
         "trapple": CONTENT["projects"][0]["alt"],
         "deckme": CONTENT["projects"][1]["alt"],
-        "metrics": CONTENT["metrics"]["alt"],
+        "metrics": metrics_alt(),
         "skills": CONTENT["skills"]["alt"],
         "now": CONTENT["now"]["alt"],
         "views": views_alt,

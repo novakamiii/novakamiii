@@ -72,11 +72,13 @@ heading = "GitHub Stats"
 # The three inset panels of the metrics card, left to right.
 panels = ["Contributions", "Stats", "Languages"]
 # Baked by hand from the public GitHub API + streak-stats on 2026-11-07.
-alt = "GitHub Stats — 1,714 total contributions since Mar 9, 2024, longest streak 40 days (Mar 30 – May 8). 4 total stars earned, 168 commits in the last year, 25 total PRs, 17 total issues, 2 repositories contributed to in the last year. Most used languages: Python 77.51%, PHP 5.74%, Hack 3.63%, TypeScript 3.54%, Blade 2.21%, HTML 1.60%."
+alt = "GitHub Stats — {total} total contributions since {total_range}, longest streak {streak} days ({streak_range}). {stars} total stars earned, {commits} commits in the last year, {prs} total PRs, {issues} total issues, {contributed} repositories contributed to in the last year. Most used languages: {langs}."
+# The {placeholders} are filled at build time (build_assets.metrics_alt) and by
+# scripts/update_metrics.py when the nightly workflow refreshes the numbers.
 
 [metrics.contributions]
 total_label = "Total Contributions"
-total = "1,714"
+total = "1,706"
 total_range = "Mar 9, 2024 – Present"
 streak_label = "Longest Streak"
 streak = "40"
@@ -84,13 +86,13 @@ streak_range = "Mar 30 – May 8"
 
 [[metrics.stats]]
 label = "Total Stars Earned"
-value = "4"
+value = "5"
 [[metrics.stats]]
 label = "Total Commits (last year)"
-value = "168"
+value = "188"
 [[metrics.stats]]
 label = "Total PRs"
-value = "25"
+value = "23"
 [[metrics.stats]]
 label = "Total Issues"
 value = "17"
@@ -100,22 +102,22 @@ value = "2"
 
 [[metrics.languages]]
 name = "Python"
-pct = "77.51"
-[[metrics.languages]]
-name = "PHP"
-pct = "5.74"
-[[metrics.languages]]
-name = "Hack"
-pct = "3.63"
+pct = "34.39"
 [[metrics.languages]]
 name = "TypeScript"
-pct = "3.54"
+pct = "25.22"
 [[metrics.languages]]
-name = "Blade"
-pct = "2.21"
+name = "PHP"
+pct = "19.89"
 [[metrics.languages]]
 name = "HTML"
-pct = "1.60"
+pct = "8.67"
+[[metrics.languages]]
+name = "Hack"
+pct = "3.19"
+[[metrics.languages]]
+name = "Blade"
+pct = "3.12"
 
 [skills]
 heading = "Stack"
