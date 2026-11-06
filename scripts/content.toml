@@ -67,6 +67,56 @@ meta = "Apr 2026 → Oct 2026 · public · novakamiii/DeckMe"
 alt = "DeckMe! — Flashcards for desktop, web and mobile. An Anki-inspired flashcard app: turn notes into structured decks with an LLM prompt, then study with zen mode, a pomodoro timer and progress charts. Native builds for Windows, Linux and Android, plus a web app. Stack: Tauri 2, Capacitor, React, TypeScript, MUI. Apr 2026 → Oct 2026, public, novakamiii/DeckMe."
 link = "https://github.com/novakamiii/DeckMe"
 
+[metrics]
+heading = "GitHub Stats"
+# The three inset panels of the metrics card, left to right.
+panels = ["Contributions", "Stats", "Languages"]
+# Baked by hand from the public GitHub API + streak-stats on 2026-11-07.
+alt = "GitHub Stats — 1,714 total contributions since Mar 9, 2024, longest streak 40 days (Mar 30 – May 8). 4 total stars earned, 168 commits in the last year, 25 total PRs, 17 total issues, 2 repositories contributed to in the last year. Most used languages: Python 77.51%, PHP 5.74%, Hack 3.63%, TypeScript 3.54%, Blade 2.21%, HTML 1.60%."
+
+[metrics.contributions]
+total_label = "Total Contributions"
+total = "1,714"
+total_range = "Mar 9, 2024 – Present"
+streak_label = "Longest Streak"
+streak = "40"
+streak_range = "Mar 30 – May 8"
+
+[[metrics.stats]]
+label = "Total Stars Earned"
+value = "4"
+[[metrics.stats]]
+label = "Total Commits (last year)"
+value = "168"
+[[metrics.stats]]
+label = "Total PRs"
+value = "25"
+[[metrics.stats]]
+label = "Total Issues"
+value = "17"
+[[metrics.stats]]
+label = "Contributed to (last year)"
+value = "2"
+
+[[metrics.languages]]
+name = "Python"
+pct = "77.51"
+[[metrics.languages]]
+name = "PHP"
+pct = "5.74"
+[[metrics.languages]]
+name = "Hack"
+pct = "3.63"
+[[metrics.languages]]
+name = "TypeScript"
+pct = "3.54"
+[[metrics.languages]]
+name = "Blade"
+pct = "2.21"
+[[metrics.languages]]
+name = "HTML"
+pct = "1.60"
+
 [skills]
 heading = "Stack"
 alt = "Stack — PHP, Laravel, TypeScript, JavaScript, React, Tailwind CSS, Vite, Python, PostgreSQL, Redis, Docker, Git, GitHub, GitHub Actions, Linux, Arch Linux, Nginx, Neovim, VSCodium, Zed, Krita."

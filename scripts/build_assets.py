@@ -346,6 +346,60 @@ def build_project(c: Card, proj: dict) -> int:
     return round(y + 6)
 
 
+def build_metrics(c: Card) -> int:
+    """GitHub Stats: contributions, repo totals and languages — three equal panels."""
+    m = CONTENT["metrics"]
+    y = 50
+    y = c.heading(y, m["heading"])
+    top, gap, H, inset = y + 12, 16, 188, 18
+    pw = (c.w - 2 * c.pad - 2 * gap) / 3
+    cols = [c.pad + i * (pw + gap) for i in range(3)]
+    for i, x0 in enumerate(cols):
+        c.parts.append(f'<rect x="{x0:g}" y="{top:g}" width="{pw:g}" height="{H}" rx="6" fill="{MANTLE}"/>')
+        c.text(x0 + inset, top + 27, m["panels"][i], "mono_b", 10, SUBTEXT0, spacing="1.2")
+
+    # contributions: two stacked figures split by a hairline
+    con, cx = m["contributions"], cols[0] + pw / 2
+    for (num, label, rng), b in (
+        ((con["total"], con["total_label"], con["total_range"]), top + 60),
+        ((con["streak"], con["streak_label"], con["streak_range"]), top + 138),
+    ):
+        c.text(cx, b, num, "mono_b", 26, TEXT, anchor="middle")
+        c.text(cx, b + 18, label, "mono_r", 11.5, TEXT, anchor="middle")
+        c.text(cx, b + 33, rng, "mono_r", 10.5, SUBTEXT0, anchor="middle")
+    c.rule(cols[0] + inset, top + 112, cols[0] + pw - inset, CRUST, 1)
+
+    # repo totals: compact label/value rows
+    sx = cols[1]
+    for i, row in enumerate(m["stats"]):
+        b = top + 58 + i * 25
+        c.text(sx + inset, b, row["label"], "mono_r", 11.5, TEXT)
+        c.text(sx + pw - inset, b, row["value"], "mono_b", 11.5, TEXT, anchor="end")
+
+    # languages: stacked bar over a compact legend; the CRUST track shows the remainder
+    lx = cols[2]
+    langs = m["languages"]
+    bw, bar_y = pw - 2 * inset, top + 42
+    c.parts.append(
+        '<defs><clipPath id="metrics-bar">'
+        f'<rect x="{lx + inset:g}" y="{bar_y:g}" width="{bw:g}" height="7" rx="3.5"/></clipPath></defs>'
+    )
+    c.parts.append('<g clip-path="url(#metrics-bar)">')
+    c.parts.append(f'<rect x="{lx + inset:g}" y="{bar_y:g}" width="{bw:g}" height="7" fill="{CRUST}"/>')
+    seg_x = lx + inset
+    for i, lang in enumerate(langs):
+        w = float(lang["pct"]) / 100 * bw
+        c.parts.append(f'<rect x="{seg_x:g}" y="{bar_y:g}" width="{w:g}" height="7" fill="{FF_DOTS[i]}"/>')
+        seg_x += w
+    c.parts.append("</g>")
+    for i, lang in enumerate(langs):
+        b = top + 70 + i * 19
+        c.parts.append(f'<circle cx="{lx + inset + 5:g}" cy="{b - 3.5:g}" r="3.5" fill="{FF_DOTS[i]}"/>')
+        c.text(lx + inset + 14, b, lang["name"], "mono_r", 10.5, TEXT)
+        c.text(lx + pw - inset, b, f'{lang["pct"]}%', "mono_r", 10.5, SUBTEXT0, anchor="end")
+    return round(top + H + 24)
+
+
 def build_skills(c: Card) -> int:
     y = 50
     y = c.heading(y, CONTENT["skills"]["heading"])
@@ -477,6 +531,8 @@ def write_readme(alts: dict[str, str]) -> None:
 <p><img src="assets/work-trapple.svg" width="800" alt="{escape(alts["trapple"])}"/></p>
 <p><a href="{deck_link}"><img src="assets/work-deckme.svg" width="800" alt="{escape(alts["deckme"])}"/></a></p>
 
+<p><img src="assets/metrics.svg" width="800" alt="{escape(alts["metrics"])}"/></p>
+
 <p><img src="assets/skills.svg" width="800" alt="{escape(alts["skills"])}"/></p>
 
 <p><img src="assets/now.svg" width="800" alt="{escape(alts["now"])}"/></p>
@@ -503,6 +559,7 @@ def main() -> None:
     render("fastfetch", 800, "fastfetch", CONTENT["fastfetch"]["alt"], build_fastfetch)
     for proj in CONTENT["projects"]:
         render(proj["card"], 800, proj["name"], proj["alt"], build_project, proj)
+    render("metrics", 800, "GitHub Stats", CONTENT["metrics"]["alt"], build_metrics)
     render("skills", 800, "Stack", CONTENT["skills"]["alt"], build_skills)
     render("now", 800, "Now", CONTENT["now"]["alt"], build_now)
     render("views", 800, "Profile views", views_alt, build_views)
@@ -515,6 +572,7 @@ def main() -> None:
         "fastfetch": CONTENT["fastfetch"]["alt"],
         "trapple": CONTENT["projects"][0]["alt"],
         "deckme": CONTENT["projects"][1]["alt"],
+        "metrics": CONTENT["metrics"]["alt"],
         "skills": CONTENT["skills"]["alt"],
         "now": CONTENT["now"]["alt"],
         "views": views_alt,
