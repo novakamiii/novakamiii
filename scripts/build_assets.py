@@ -358,18 +358,20 @@ def build_skills(c: Card) -> int:
         '<filter id="s35" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0.35"/></filter>'
         '<filter id="s20" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0.2"/></filter>'
     )
-    # Stack rows fade in one by one (1s per icon), rows slide in alternating
-    # directions: odd rows enter left-to-right, even rows right-to-left. CSS
-    # animations survive GitHub's sandboxed <img>; scripts do not.
+    # Each stack row slides in as one group — every icon in a row shares the
+    # row's delay, and rows stagger 0.5s apart so nothing queues behind the
+    # previous row. Directions alternate: even rows enter left-to-right, odd
+    # rows right-to-left. CSS animations survive GitHub's sandboxed <img>;
+    # scripts do not.
     rows = (len(names) + per - 1) // per
+    row_gap = 0.5  # seconds between row starts
     css = (
         '@keyframes sl-in-l{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}'
         '@keyframes sl-in-r{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}'
         + "".join(
-            f'.i.r{r}{{animation:1s ease-out both sl-in-{"l" if r % 2 == 0 else "r"}}}'
+            f'.i.r{r}{{animation:1s ease-out both sl-in-{"l" if r % 2 == 0 else "r"};animation-delay:{r * row_gap:g}s}}'
             for r in range(rows)
         )
-        + "".join(f'.i.r{r}.c{k}{{animation-delay:{r * per + k}s}}' for r in range(rows) for k in range(per))
     )
     c.parts.append(f"<style>{css}</style>")
     for i, name in enumerate(names):
@@ -385,7 +387,7 @@ def build_skills(c: Card) -> int:
         inner = ID_ATTR.sub(lambda m: f'id="{pre}{m.group(1)}"', inner)
         inner = REF_RE.sub(f'\\1{pre}', inner)
         filt = "s35" if light_tile else "s20"
-        c.parts.append(f'<g class="i r{row} c{col}" filter="url(#{filt})"><svg x="{x:g}" y="{yy:g}" width="{tile}" height="{tile}" viewBox="0 0 256 256">{inner}</svg></g>')
+        c.parts.append(f'<g class="i r{row}" filter="url(#{filt})"><svg x="{x:g}" y="{yy:g}" width="{tile}" height="{tile}" viewBox="0 0 256 256">{inner}</svg></g>')
     y_bottom = y + rows * (tile + gap) - gap
     y = y_bottom + 26
     caption = CONTENT["skills"].get("caption")
