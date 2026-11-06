@@ -15,9 +15,9 @@
 
 <p><img src="assets/views.svg" width="800" alt="You are the 159th viewer. Welcome."/></p>
 
-<!-- 1px counter pixel: the only source of the view count. It increments the
+<!-- 0x0 counter pixel: the only source of the view count. It increments the
      badge service; scripts/update_views.py bakes that number into the plain-text
      views card above nightly. -->
-<p><img src="https://komarev.com/ghpvc/?username=novakamiii&amp;label=&amp;color=7f6dab" width="1" height="1" alt=""/></p>
+<p><img src="https://komarev.com/ghpvc/?username=novakamiii&amp;label=&amp;color=7f6dab" width="0" height="0" alt=""/></p>
 
 </div>
