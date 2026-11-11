@@ -102,16 +102,16 @@ value = "2"
 
 [[metrics.languages]]
 name = "Python"
-pct = "33.79"
+pct = "33.78"
 [[metrics.languages]]
 name = "TypeScript"
-pct = "25.98"
+pct = "26.00"
 [[metrics.languages]]
 name = "PHP"
-pct = "19.91"
+pct = "19.90"
 [[metrics.languages]]
 name = "HTML"
-pct = "8.51"
+pct = "8.50"
 [[metrics.languages]]
 name = "Hack"
 pct = "3.13"
@@ -131,7 +131,7 @@ alt = "November 2026 — This term: the capstone’s lifecycle dashboard and its
 [views]
 # a viewer counter rendered as plain text; {ord} becomes e.g. "143rd".
 # The workflow refreshes "count" nightly; locally the last known value is used.
-count = 203
+count = 205
 sentence = "You are the {ord} viewer. Welcome."
 alt = "You are the {ord} viewer. Welcome."
 
