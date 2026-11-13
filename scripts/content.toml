@@ -78,7 +78,7 @@ alt = "GitHub Stats — {total} total contributions since {total_range}, longest
 
 [metrics.contributions]
 total_label = "Total Contributions"
-total = "1,780"
+total = "1,790"
 total_range = "Mar 9, 2024 – Present"
 streak_label = "Longest Streak"
 streak = "40"
@@ -102,22 +102,22 @@ value = "2"
 
 [[metrics.languages]]
 name = "Python"
-pct = "33.76"
+pct = "33.66"
 [[metrics.languages]]
 name = "TypeScript"
-pct = "25.98"
+pct = "26.14"
 [[metrics.languages]]
 name = "PHP"
 pct = "19.94"
 [[metrics.languages]]
 name = "HTML"
-pct = "8.50"
+pct = "8.47"
 [[metrics.languages]]
 name = "Hack"
-pct = "3.13"
+pct = "3.12"
 [[metrics.languages]]
 name = "Blade"
-pct = "3.10"
+pct = "3.09"
 
 [skills]
 heading = "Stack"
@@ -131,7 +131,7 @@ alt = "November 2026 — This term: the capstone’s lifecycle dashboard and its
 [views]
 # a viewer counter rendered as plain text; {ord} becomes e.g. "143rd".
 # The workflow refreshes "count" nightly; locally the last known value is used.
-count = 205
+count = 210
 sentence = "You are the {ord} viewer. Welcome."
 alt = "You are the {ord} viewer. Welcome."
 
