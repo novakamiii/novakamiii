@@ -78,7 +78,7 @@ alt = "GitHub Stats — {total} total contributions since {total_range}, longest
 
 [metrics.contributions]
 total_label = "Total Contributions"
-total = "2,567"
+total = "2,578"
 total_range = "Mar 9, 2024 – Present"
 streak_label = "Longest Streak"
 streak = "40"
@@ -102,22 +102,22 @@ value = "2"
 
 [[metrics.languages]]
 name = "Python"
-pct = "33.57"
+pct = "33.47"
 [[metrics.languages]]
 name = "TypeScript"
-pct = "26.17"
+pct = "26.30"
 [[metrics.languages]]
 name = "PHP"
-pct = "20.05"
+pct = "20.09"
 [[metrics.languages]]
 name = "HTML"
-pct = "8.45"
+pct = "8.43"
 [[metrics.languages]]
 name = "Hack"
-pct = "3.11"
+pct = "3.10"
 [[metrics.languages]]
 name = "Blade"
-pct = "3.08"
+pct = "3.07"
 
 [skills]
 heading = "Stack"
